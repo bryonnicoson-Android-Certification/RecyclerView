@@ -1,10 +1,12 @@
 package com.bryonnicoson.recyclerview;
 
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 
 import java.util.LinkedList;
 
@@ -34,5 +36,21 @@ public class MainActivity extends AppCompatActivity {
         // Give the RecyclerView a default layout manager
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        // Add a floating action click handler for creating new entries
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                int wordListSize = mWordList.size();
+                // Add a new word to the end of the wordList.
+                mWordList.addLast("+ Word " + wordListSize);
+                // Notify the adapter of data change, update RecyclerView
+                mRecyclerView.getAdapter().notifyItemInserted(wordListSize);
+                // Scroll to bottom
+                mRecyclerView.smoothScrollToPosition(wordListSize);
+            }
+        });
     }
+
 }
